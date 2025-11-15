@@ -27,7 +27,7 @@ function useAnimatedTitles(titles: readonly string[]) {
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       setTitleNumber((current) =>
-        current === titles.length - 1 ? 0 : current + 1,
+        current === titles.length - 1 ? 0 : current + 1
       );
     }, 2000);
 
@@ -48,17 +48,22 @@ export function AnimatedHeroHeadline({
   return (
     <span
       className={cn(
-        "relative flex w-full justify-center overflow-hidden text-center md:pb-4 md:pt-1 lg:justify-start",
-        className,
+        "relative flex w-full justify-center overflow-hidden text-center md:pb-2 md:pt-1 lg:justify-start",
+        className
       )}
     >
-      &nbsp;
+      <span aria-hidden className="invisible font-semibold">
+        {memoTitles[0] ?? ""}
+      </span>
       {memoTitles.map((title, index) => (
         <motion.span
           key={title}
-          className={cn("absolute font-semibold", wordClassName)}
-          initial={{ opacity: 0, y: -100 }}
-          transition={{ type: "spring", stiffness: 50 }}
+          className={cn(
+            "absolute left-1/2 -translate-x-1/2 font-semibold",
+            wordClassName
+          )}
+          initial={{ opacity: 0, y: "-100%" }}
+          transition={{ type: "spring", stiffness: 50, damping: 18 }}
           animate={
             titleNumber === index
               ? {
@@ -66,7 +71,7 @@ export function AnimatedHeroHeadline({
                   opacity: 1,
                 }
               : {
-                  y: titleNumber > index ? -150 : 150,
+                  y: titleNumber > index ? "-100%" : "100%",
                   opacity: 0,
                 }
           }
@@ -81,7 +86,7 @@ export function AnimatedHeroHeadline({
 function Hero() {
   const memoTitles = useMemo(
     () => ["amazing", "new", "wonderful", "beautiful", "smart"],
-    [],
+    []
   );
   const { titleNumber } = useAnimatedTitles(memoTitles);
 
@@ -124,9 +129,10 @@ function Hero() {
             </h1>
 
             <p className="text-md mx-auto max-w-2xl text-center text-muted-foreground md:text-xl">
-              Managing a small business today is already tough. Avoid further complications
-              by ditching outdated, tedious trade methods. Our goal is to streamline SMB
-              trade, making it easier and faster than ever.
+              Managing a small business today is already tough. Avoid further
+              complications by ditching outdated, tedious trade methods. Our
+              goal is to streamline SMB trade, making it easier and faster than
+              ever.
             </p>
           </div>
           <div className="flex flex-row gap-3">
@@ -144,5 +150,3 @@ function Hero() {
 }
 
 export { Hero };
-
-

@@ -98,8 +98,8 @@ export default function Home() {
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         <div className="absolute inset-0 opacity-45 [--tile:rgba(213,255,236,0.85)]">
           <Tiles
-            rows={80}
-            cols={12}
+            rows={120}
+            cols={36}
             tileSize="sm"
             tileClassName="border-white/20 dark:border-white/10"
           />

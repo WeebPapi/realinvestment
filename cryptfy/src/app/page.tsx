@@ -1,11 +1,13 @@
 import Link from "next/link";
 
+import { Tiles } from "@/components/ui/tiles";
+
 export default function Home() {
   const navLinks = [
     { label: "Trade", href: "/trade" },
     { label: "Portfolio", href: "/portfolio" },
-    { label: "About", href: "#execution-core" },
     { label: "Community", href: "#community" },
+    { label: "About", href: "#execution-core" },
   ];
   const stats = [
     { label: "Avg swap time", value: "1.2s" },
@@ -24,21 +26,53 @@ export default function Home() {
       title: "Real-time risk engine",
       description:
         "Monitor liquidity, slippage, and volatility in one stream with adaptive thresholds tuned for pro desks.",
-      points: ["Granular alerts", "Programmable safeguards", "Audit-ready logs"],
+      points: [
+        "Granular alerts",
+        "Programmable safeguards",
+        "Audit-ready logs",
+      ],
     },
     {
       title: "Unified treasury layer",
       description:
         "Automate funding flows with multi-sig vaults, scheduled rebalancing, and fiat on/off ramps.",
-      points: ["Multi-entrant controls", "Gas abstraction", "Cross-chain batching"],
+      points: [
+        "Multi-entrant controls",
+        "Gas abstraction",
+        "Cross-chain batching",
+      ],
     },
   ];
 
   const marketMovers = [
-    { name: "Bitcoin", symbol: "BTC", price: "$7,235.02", change: "+3.24%", volume: "$23.4B" },
-    { name: "Ether", symbol: "ETH", price: "$3,482.11", change: "+1.87%", volume: "$14.6B" },
-    { name: "Solana", symbol: "SOL", price: "$182.45", change: "+5.32%", volume: "$5.2B" },
-    { name: "Aptos", symbol: "APT", price: "$13.08", change: "-2.14%", volume: "$1.8B" },
+    {
+      name: "Bitcoin",
+      symbol: "BTC",
+      price: "$7,235.02",
+      change: "+3.24%",
+      volume: "$23.4B",
+    },
+    {
+      name: "Ether",
+      symbol: "ETH",
+      price: "$3,482.11",
+      change: "+1.87%",
+      volume: "$14.6B",
+    },
+    {
+      name: "Solana",
+      symbol: "SOL",
+      price: "$182.45",
+      change: "+5.32%",
+      volume: "$5.2B",
+    },
+    {
+      name: "Aptos",
+      symbol: "APT",
+      price: "$13.08",
+      change: "-2.14%",
+      volume: "$1.8B",
+    },
   ];
 
   const trustSignals = [
@@ -62,6 +96,14 @@ export default function Home() {
         <div className="absolute -right-24 top-12 h-[20rem] w-[20rem] rounded-full bg-emerald-500/30 blur-[160px]" />
         <div className="absolute -left-32 top-[42rem] h-[24rem] w-[24rem] rounded-full bg-lime-400/25 blur-[160px]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+        <div className="absolute inset-0 opacity-45 [--tile:rgba(213,255,236,0.85)]">
+          <Tiles
+            rows={80}
+            cols={12}
+            tileSize="sm"
+            tileClassName="border-white/20 dark:border-white/10"
+          />
+        </div>
       </div>
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-24 pt-8 sm:px-10 lg:px-16">
@@ -71,7 +113,9 @@ export default function Home() {
               RI
             </span>
             <div>
-              <p className="text-lg font-semibold tracking-wide">Real Investment</p>
+              <p className="text-lg font-semibold tracking-wide">
+                Real Investment
+              </p>
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">
                 Trading Platform
               </p>
@@ -91,6 +135,13 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <Link
+              href="/profile"
+              className="hidden h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sm font-semibold text-white/80 transition hover:border-emerald-300/60 hover:text-white md:flex"
+            >
+              <span className="sr-only">Profile</span>
+              <span className="text-xs uppercase tracking-[0.3em]">ID</span>
+            </Link>
             <Link
               href="/login"
               className="hidden rounded-full border border-white/15 px-5 py-2 text-sm font-medium text-white/80 transition hover:border-white/40 hover:text-white md:block"
@@ -123,9 +174,9 @@ export default function Home() {
                   </span>
                 </h1>
                 <p className="max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
-                  Real Investment orchestrates 3D market visualisations, automated routing,
-                  and latency-aware liquidity so you can move size instantly—without
-                  overpaying on gas or slippage.
+                  Real Investment orchestrates 3D market visualisations,
+                  automated routing, and latency-aware liquidity so you can move
+                  size instantly—without overpaying on gas or slippage.
                 </p>
               </div>
 
@@ -206,8 +257,8 @@ export default function Home() {
                     </p>
                     <p className="mt-2 text-[0.7rem] text-emerald-200">
                       Streams ready
-          </p>
-        </div>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -226,8 +277,9 @@ export default function Home() {
                   Anchor your desk with modular liquidity primitives
                 </h2>
                 <p className="text-base text-white/70">
-                  Each block can be deployed independently or bundled into your existing
-                  infrastructure using our command line toolkit and API-level webhooks.
+                  Each block can be deployed independently or bundled into your
+                  existing infrastructure using our command line toolkit and
+                  API-level webhooks.
                 </p>
               </div>
               <button
@@ -245,14 +297,19 @@ export default function Home() {
                   className="group flex h-full flex-col justify-between rounded-3xl border border-white/10 bg-gradient-to-br from-white/8 via-neutral-900/70 to-neutral-900/90 p-6 transition duration-300 hover:border-emerald-300/40 hover:shadow-[0_40px_80px_rgba(134,239,172,0.18)]"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
+                    <h3 className="text-xl font-semibold text-white">
+                      {feature.title}
+                    </h3>
                     <p className="mt-3 text-sm leading-relaxed text-white/70">
                       {feature.description}
                     </p>
                   </div>
                   <ul className="mt-6 space-y-2 text-sm text-emerald-200/90">
                     {feature.points.map((point) => (
-                      <li key={point} className="flex items-center gap-2 text-left">
+                      <li
+                        key={point}
+                        className="flex items-center gap-2 text-left"
+                      >
                         <span className="h-1.5 w-6 rounded-full bg-emerald-300/70 transition group-hover:w-8" />
                         <span>{point}</span>
                       </li>
@@ -269,7 +326,9 @@ export default function Home() {
           >
             <div className="rounded-[3rem] border border-white/5 bg-white/5 p-8 backdrop-blur">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold text-white">Market flight deck</h2>
+                <h2 className="text-2xl font-semibold text-white">
+                  Market flight deck
+                </h2>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white/50">
                   Live feed
                 </span>
@@ -287,14 +346,18 @@ export default function Home() {
                           {asset.symbol}
                         </div>
                         <div>
-                          <p className="text-lg font-semibold text-white">{asset.name}</p>
+                          <p className="text-lg font-semibold text-white">
+                            {asset.name}
+                          </p>
                           <p className="text-xs uppercase tracking-[0.2em] text-white/40">
                             Total volume {asset.volume}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-semibold text-white">{asset.price}</p>
+                        <p className="text-lg font-semibold text-white">
+                          {asset.price}
+                        </p>
                         <p
                           className={`text-sm font-medium ${
                             positive ? "text-emerald-300" : "text-rose-400"
@@ -311,10 +374,12 @@ export default function Home() {
 
             <div className="space-y-6">
               <div className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/10 via-neutral-900/80 to-neutral-900/95 p-8 backdrop-blur">
-                <h2 className="text-2xl font-semibold text-white">Why desks choose Real Investment</h2>
+                <h2 className="text-2xl font-semibold text-white">
+                  Why desks choose Real Investment
+                </h2>
                 <p className="mt-3 text-sm text-white/70">
-                  Built with a cinema-grade 3D hero for live events and investor demos, backed
-                  by real execution muscle for pro trading teams.
+                  Built with a cinema-grade 3D hero for live events and investor
+                  demos, backed by real execution muscle for pro trading teams.
                 </p>
                 <ul className="mt-6 space-y-4">
                   {trustSignals.map((signal) => (
@@ -325,7 +390,9 @@ export default function Home() {
                       <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">
                         {signal.title}
                       </p>
-                      <p className="mt-2 text-sm text-white/70">{signal.body}</p>
+                      <p className="mt-2 text-sm text-white/70">
+                        {signal.body}
+                      </p>
                     </li>
                   ))}
                 </ul>
@@ -339,8 +406,9 @@ export default function Home() {
                   Bring your skyline to life
                 </h3>
                 <p className="mt-2 text-sm text-neutral-900/70">
-                  Submit your 3D assets and we will stage them within the hero module,
-                  complete with volumetric lighting presets and camera paths.
+                  Submit your 3D assets and we will stage them within the hero
+                  module, complete with volumetric lighting presets and camera
+                  paths.
                 </p>
                 <button
                   type="button"
@@ -354,7 +422,10 @@ export default function Home() {
         </main>
 
         <footer className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-white/10 bg-white/5 px-8 py-6 text-sm text-white/60 backdrop-blur md:flex-row">
-          <p>© {new Date().getFullYear()} Real Investment Group. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Real Investment Group. All rights
+            reserved.
+          </p>
           <div className="flex items-center gap-4">
             <a href="#" className="transition hover:text-white">
               Status
@@ -364,8 +435,8 @@ export default function Home() {
             </a>
             <a href="#" className="transition hover:text-white">
               Careers
-          </a>
-        </div>
+            </a>
+          </div>
         </footer>
       </div>
     </div>

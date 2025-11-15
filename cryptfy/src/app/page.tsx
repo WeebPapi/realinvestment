@@ -60,13 +60,13 @@ export default function Home() {
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-6 pb-24 pt-8 sm:px-10 lg:px-16">
         <header className="flex flex-wrap items-center justify-between gap-6 rounded-full border border-white/10 bg-white/5 px-6 py-4 backdrop-blur">
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 via-lime-300 to-emerald-500 text-lg font-semibold text-black shadow-[0_0_40px_rgba(163,255,204,0.6)]">
-              C
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 via-lime-300 to-emerald-500 text-base font-semibold text-black shadow-[0_0_40px_rgba(163,255,204,0.6)]">
+              RI
             </span>
             <div>
-              <p className="text-lg font-semibold tracking-wide">Cryptfy</p>
+              <p className="text-lg font-semibold tracking-wide">Real Investment</p>
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">
-                Swap Network
+                Trading Platform
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Home() {
                   </span>
                 </h1>
                 <p className="max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
-                  Cryptfy orchestrates 3D market visualisations, automated routing,
+                  Real Investment orchestrates 3D market visualisations, automated routing,
                   and latency-aware liquidity so you can move size instantly—without
                   overpaying on gas or slippage.
                 </p>
@@ -298,7 +298,7 @@ export default function Home() {
 
             <div className="space-y-6">
               <div className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/10 via-neutral-900/80 to-neutral-900/95 p-8 backdrop-blur">
-                <h2 className="text-2xl font-semibold text-white">Why desks choose Cryptfy</h2>
+                <h2 className="text-2xl font-semibold text-white">Why desks choose Real Investment</h2>
                 <p className="mt-3 text-sm text-white/70">
                   Built with a cinema-grade 3D hero for live events and investor demos, backed
                   by real execution muscle for pro trading teams.
@@ -341,7 +341,7 @@ export default function Home() {
         </main>
 
         <footer className="mt-20 flex flex-col items-center justify-between gap-6 rounded-3xl border border-white/10 bg-white/5 px-8 py-6 text-sm text-white/60 backdrop-blur md:flex-row">
-          <p>© {new Date().getFullYear()} Cryptfy Labs. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Real Investment Group. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a href="#" className="transition hover:text-white">
               Status

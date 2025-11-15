@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Cryptfy — Lightning fast crypto swaps",
+  title: "Real Investment — Lightning fast crypto swaps",
   description:
-    "Trade crypto assets with institutional-grade pricing, 3D market visualisations, and ultra-low fees on Cryptfy.",
+    "Trade crypto assets with institutional-grade pricing, 3D market visualisations, and ultra-low fees on Real Investment.",
 };
 
 export default function RootLayout({

@@ -381,7 +381,7 @@ export default function Home() {
             id="opportunities"
             className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]"
           >
-            <div className="rounded-[2.5rem] border border-white/5 bg-white/5 p-7 backdrop-blur">
+            <div className="self-start rounded-[2.5rem] border border-white/5 bg-white/5 p-7 backdrop-blur">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-semibold text-white">
                   Active raises this week

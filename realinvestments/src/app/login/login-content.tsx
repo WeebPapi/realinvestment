@@ -127,7 +127,7 @@ export function LoginContent() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/");
+      router.replace("/dashboard");
     }
   }, [isAuthenticated, router]);
 

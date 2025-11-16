@@ -65,14 +65,14 @@ export function HeroModelBackdrop() {
         const boundingBox = new THREE.Box3().setFromObject(object);
         const size = boundingBox.getSize(new THREE.Vector3());
         const maxDimension = Math.max(size.x, size.y, size.z);
-        const targetSize = 2.6;
+        const targetSize = 4;
         const scale = maxDimension ? targetSize / maxDimension : 1;
         object.scale.setScalar(scale);
 
         boundingBox.setFromObject(object);
         const center = boundingBox.getCenter(new THREE.Vector3());
         object.position.sub(center);
-        object.position.y -= 0.15;
+        object.position.y -= 0.3;
 
         model = object;
         scene.add(object);

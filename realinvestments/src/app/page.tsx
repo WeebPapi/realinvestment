@@ -140,7 +140,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-neutral-950 text-white">
-        <div className="pointer-events-none absolute inset-0">
+      <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         <div className="absolute inset-0 opacity-45 [--tile:rgba(213,255,236,0.85)]">
           <Tiles

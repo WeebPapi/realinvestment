@@ -241,7 +241,10 @@ export function HeroModelBackdrop() {
   }, []);
 
   return (
-    <div ref={containerRef} className="pointer-events-none absolute inset-0">
+    <div
+      ref={containerRef}
+      className="pointer-events-none absolute inset-0 -z-10"
+    >
       <canvas
         ref={canvasRef}
         className="h-full w-full"

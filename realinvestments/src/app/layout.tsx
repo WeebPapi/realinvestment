@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/providers/auth-provider";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Real Investment — Lightning fast crypto swaps",
+  title: "Real Investment — Fractional Georgian Real Estate",
   description:
-    "Trade crypto assets with institutional-grade pricing, 3D market visualisations, and ultra-low fees on Real Investment.",
+    "Invest in Georgian apartments through single-asset SPVs with escrow-protected raises, transparent fees, and direct bank payouts.",
 };
 
 export default function RootLayout({
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-neutral-950 text-white antialiased`}
       >
-        {children}
+        <AuthProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </AuthProvider>
       </body>
     </html>
   );

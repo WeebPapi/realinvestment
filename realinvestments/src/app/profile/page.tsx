@@ -3,33 +3,33 @@ import Link from "next/link";
 export const metadata = {
   title: "Real Investment | Profile",
   description:
-    "Review your Real Investment desk profile, recent sessions, and access policies in one secure place.",
+    "Review your Real Investment investor profile, compliance status, and linked bank accounts in one secure place.",
 };
 
 const profile = {
-  name: "Jordan Reeves",
-  role: "Head of Digital Asset Trading",
-  deskId: "RI-0019-AX45",
-  location: "Singapore • GMT+8",
-  avatarInitials: "JR",
+  name: "Nino Beridze",
+  role: "Fractional investor",
+  deskId: "INV-0197-GE",
+  location: "Tbilisi • GMT+4",
+  avatarInitials: "NB",
 };
 
 const teams = [
-  { name: "Execution Desk", status: "Active", members: 8 },
-  { name: "Strategy Research", status: "Active", members: 5 },
-  { name: "Risk & Compliance", status: "Observer", members: 4 },
+  { name: "Tbilisi Apt #1 LLC", status: "Shareholder", members: 42 },
+  { name: "Seaside Residences LLC", status: "Shareholder", members: 27 },
+  { name: "Riverside Lofts LLC", status: "Pending", members: 18 },
 ];
 
 const sessions = [
-  { device: "Mac Studio • Safari", location: "Singapore", time: "Active now" },
-  { device: "iPad Pro • Real Investment App", location: "Singapore", time: "Today, 09:14" },
-  { device: "ThinkPad • Chrome", location: "Tokyo", time: "Yesterday, 22:48" },
+  { device: "MacBook Air • Safari", location: "Tbilisi", time: "Active now" },
+  { device: "iPhone • Real Investment App", location: "Batumi", time: "Today, 09:14" },
+  { device: "ThinkPad • Chrome", location: "Kutaisi", time: "Yesterday, 22:48" },
 ];
 
 const preferences = [
-  { label: "Session timeout", value: "15 minutes idle" },
-  { label: "Notification tier", value: "Route anomalies + daily digest" },
-  { label: "Multi-factor", value: "Hardware token + biometric safeguard" },
+  { label: "KYC verification", value: "Georgian ID • 2025-02-04" },
+  { label: "Linked bank", value: "TBC Bank • •• 1189" },
+  { label: "Notification tier", value: "Funding windows + payout receipts" },
 ];
 
 export default function ProfilePage() {
@@ -49,7 +49,7 @@ export default function ProfilePage() {
               </div>
               <div>
                 <p className="text-sm uppercase tracking-[0.35em] text-emerald-200/80">
-                  Desk ID {profile.deskId}
+                  Investor ID {profile.deskId}
                 </p>
                 <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
                   {profile.name}
@@ -63,7 +63,7 @@ export default function ProfilePage() {
               href="/login"
               className="rounded-full border border-white/15 px-6 py-2 text-sm font-medium text-white/80 transition hover:border-white/40 hover:text-white"
             >
-              Manage credentials
+              Manage identity
             </Link>
           </div>
           <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -86,16 +86,16 @@ export default function ProfilePage() {
           <div className="rounded-[2.5rem] border border-white/12 bg-white/6 p-8 backdrop-blur">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
-                <h2 className="text-2xl font-semibold">Team access</h2>
+                <h2 className="text-2xl font-semibold">SPV memberships</h2>
                 <p className="mt-1 text-sm text-white/60">
-                  Collaborators synced with this desk ID and their status.
+                  Properties you co-own and the current shareholder counts.
                 </p>
               </div>
               <Link
                 href="/portfolio"
                 className="rounded-full border border-white/15 px-5 py-2 text-xs font-medium text-white/80 transition hover:border-white/40 hover:text-white"
               >
-                View allocations
+                View holdings
               </Link>
             </div>
 
@@ -143,16 +143,15 @@ export default function ProfilePage() {
             </div>
 
             <div className="rounded-[2.2rem] border border-emerald-200/40 bg-emerald-400/18 p-6 text-neutral-900 shadow-[0_30px_80px_rgba(134,239,172,0.4)]">
-              <h3 className="text-lg font-semibold text-neutral-900">Upgrade to director mode</h3>
+              <h3 className="text-lg font-semibold text-neutral-900">Need to update compliance?</h3>
               <p className="mt-2 text-sm text-neutral-900/80">
-                Compose multi-desk views, export compliance-ready audit logs, and control the 3D
-                skyline hero remotely for high-stakes presentations.
+                Add a new Georgian bank account, refresh your KYC documents, or appoint a proxy investor. Our compliance team responds within one business day.
               </p>
               <Link
                 href="/trade"
                 className="mt-5 inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-black"
               >
-                Request access
+                Contact compliance
               </Link>
             </div>
           </aside>

@@ -1,108 +1,146 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback, type MouseEvent } from "react";
 import { UserRound } from "lucide-react";
 
+import { useAuth } from "@/components/providers/auth-provider";
 import { AnimatedHeroHeadline } from "@/components/ui/animated-hero";
 import { Tiles } from "@/components/ui/tiles";
+import { useLenis } from "@/components/providers/smooth-scroll";
 
 export default function Home() {
+  const lenis = useLenis();
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleSmoothScroll = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, hash: string) => {
+      if (!hash.startsWith("#") || !lenis) {
+        return;
+      }
+
+      const target = document.querySelector(hash);
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      event.preventDefault();
+      lenis.scrollTo(target, { offset: -80 });
+      window.history.replaceState(null, "", hash);
+    },
+    [lenis]
+  );
+
+  const handleLogout = useCallback(() => {
+    logout();
+  }, [logout]);
+
   const navLinks = [
-    { label: "Trade", href: "/trade" },
-    { label: "Portfolio", href: "/portfolio" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "Opportunities", href: "#opportunities" },
+    { label: "Fees", href: "#fee-structure" },
   ];
   const stats = [
-    { label: "Avg swap time", value: "1.2s" },
-    { label: "Fees saved last 24h", value: "$128K" },
-    { label: "Global traders", value: "174K+" },
+    { label: "Properties funded", value: "12 SPVs" },
+    { label: "Capital returned", value: "₾18.4M" },
+    { label: "Avg hold period", value: "32 months" },
   ];
 
   const animatedTitles = [
-    "cinematic infrastructure",
-    "multi-market precision",
-    "3D skyline intelligence",
-    "institutional routing",
-    "risk-aware execution",
+    "fractional ownership",
+    "Georgian rental growth",
+    "transparent escrow flows",
+    "SPV-backed security",
+    "investor-first returns",
   ];
 
   const featureCards = [
     {
-      title: "Institutional routing",
+      title: "Sourcing & due diligence",
       description:
-        "Tap into 120+ liquidity venues simultaneously to secure best-execution pricing on every swap.",
-      points: ["Smart order splitting", "MEV protection", "Instant settlement"],
-    },
-    {
-      title: "Real-time risk engine",
-      description:
-        "Monitor liquidity, slippage, and volatility in one stream with adaptive thresholds tuned for pro desks.",
+        "We partner with Georgian real estate experts to identify high-growth apartments and validate every assumption before a raise.",
       points: [
-        "Granular alerts",
-        "Programmable safeguards",
-        "Audit-ready logs",
+        "On-the-ground valuation walkthrough",
+        "Legal & technical inspection dossier",
+        "Projected rental and exit modelling",
       ],
     },
     {
-      title: "Unified treasury layer",
+      title: "Legal setup & onboarding",
       description:
-        "Automate funding flows with multi-sig vaults, scheduled rebalancing, and fiat on/off ramps.",
+        "Each property lives inside its own Georgian SPV (ShPS) so investors purchase equity in a single-asset company with clean governance.",
       points: [
-        "Multi-entrant controls",
-        "Gas abstraction",
-        "Cross-chain batching",
+        "SPV incorporation and banking",
+        "Mandatory KYC via national ID",
+        "Linked personal bank account for payouts",
+      ],
+    },
+    {
+      title: "Fundraising window & escrow",
+      description:
+        "Investors commit during a one-week window. Funds land directly in a licensed escrow account and unlock only when the round succeeds.",
+      points: [
+        "Direct bank checkout (TBC/Bog)",
+        "Segregated escrow accounts",
+        "Automatic refunds if targets miss",
       ],
     },
   ];
 
   const marketMovers = [
     {
-      name: "Bitcoin",
-      symbol: "BTC",
-      price: "$7,235.02",
-      change: "+3.24%",
-      volume: "$23.4B",
+      name: "Tbilisi • Vake Vista",
+      symbol: "TBI-01",
+      icon: "🏙️",
+      price: "₾1,150 per 1% share",
+      change: "+16% projected IRR",
+      volume: "Funding status · 78%",
     },
     {
-      name: "Ether",
-      symbol: "ETH",
-      price: "$3,482.11",
-      change: "+1.87%",
-      volume: "$14.6B",
+      name: "Batumi • Seaside Residences",
+      symbol: "BTM-02",
+      icon: "🌊",
+      price: "₾920 per 1% share",
+      change: "+14% projected IRR",
+      volume: "Funding status · 52%",
     },
     {
-      name: "Solana",
-      symbol: "SOL",
-      price: "$182.45",
-      change: "+5.32%",
-      volume: "$5.2B",
+      name: "Kutaisi • Riverside Lofts",
+      symbol: "KTS-03",
+      icon: "🌉",
+      price: "₾640 per 1% share",
+      change: "+12% projected IRR",
+      volume: "Funding status · 34%",
     },
     {
-      name: "Aptos",
-      symbol: "APT",
-      price: "$13.08",
-      change: "-2.14%",
-      volume: "$1.8B",
+      name: "Tbilisi • Old Town Revival",
+      symbol: "TBI-04",
+      icon: "🏛️",
+      price: "₾1,320 per 1% share",
+      change: "+18% projected IRR",
+      volume: "Just listed · day 1",
     },
   ];
 
   const trustSignals = [
     {
-      title: "Regulated coverage",
-      body: "Custody segregated under SOC 2 and ISO 27001 frameworks with 24/7 coverage.",
+      title: "Sourcing fee",
+      body: "2-3% one-time fee taken from the total funds raised to cover legal structuring and detailed due diligence.",
     },
     {
-      title: "Transparent pricing",
-      body: "Fee-as-a-service model keeps execution costs predictable across all venues.",
+      title: "Success fee",
+      body: "15-20% of profit only when the SPV sells the property—your capital returns before fees are calculated.",
     },
     {
-      title: "Plug-and-trade",
-      body: "SDKs across JS, Rust, and Python get you trading programmatically in minutes.",
+      title: "Early exit penalty",
+      body: "Time-based vesting on profit share: 18% in year 1, 12% in year 2, 6% in year 3—then zero beyond year three.",
     },
   ];
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-neutral-950 text-white">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-24 top-12 h-[20rem] w-[20rem] rounded-full bg-emerald-500/30 blur-[160px]" />
-        <div className="absolute -left-32 top-[42rem] h-[24rem] w-[24rem] rounded-full bg-lime-400/25 blur-[160px]" />
+        <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         <div className="absolute inset-0 opacity-45 [--tile:rgba(213,255,236,0.85)]">
           <Tiles
@@ -125,7 +163,7 @@ export default function Home() {
                 Real Investment
               </p>
               <p className="text-xs uppercase tracking-[0.3em] text-white/50">
-                Trading Platform
+                Fractional Real Estate
               </p>
             </div>
           </div>
@@ -136,27 +174,69 @@ export default function Home() {
                 <Link
                   key={item.label}
                   href={item.href}
+                  scroll={false}
+                  onClick={(event) => handleSmoothScroll(event, item.href)}
                   className="transition hover:text-white hover:drop-shadow-[0_0_12px_rgba(163,255,204,0.7)]"
                 >
                   {item.label}
                 </Link>
               ))}
+              {isAuthenticated && (
+                <Link
+                  href="/trade"
+                  className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-black shadow-[0_0_30px_rgba(163,255,204,0.35)] transition hover:bg-emerald-300"
+                >
+                  Invest now
+                </Link>
+              )}
             </nav>
 
             <div className="flex items-center gap-3">
-              <Link
-                href="/profile"
-                className="hidden h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sm font-semibold text-white/80 transition hover:border-emerald-300/60 hover:text-white md:flex"
-              >
-                <span className="sr-only">Profile</span>
-                <UserRound className="h-5 w-5" aria-hidden="true" />
-              </Link>
-              <Link
-                href="/login"
-                className="hidden rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-black shadow-[0_0_30px_rgba(163,255,204,0.35)] transition hover:bg-emerald-300 md:block"
-              >
-                Login
-              </Link>
+              {isAuthenticated ? (
+                <div className="relative hidden md:block">
+                  <div className="peer flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-sm font-semibold text-white/80 transition hover:border-emerald-300/60 hover:text-white">
+                    <Link href="/profile" className="absolute inset-0">
+                      <span className="sr-only">Profile</span>
+                    </Link>
+                    <UserRound className="h-5 w-5" aria-hidden="true" />
+                  </div>
+                  <div className="invisible absolute right-0 z-50 mt-2 w-44 -translate-y-2 rounded-xl border border-white/10 bg-neutral-900 p-2 opacity-0 shadow-xl transition-all duration-300 ease-in-out peer-hover:visible peer-hover:translate-y-0 peer-hover:opacity-100 hover:visible hover:translate-y-0 hover:opacity-100">
+                    <Link
+                      href="/profile"
+                      className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition hover:bg-white/10 hover:text-white"
+                    >
+                      <UserRound className="h-4 w-4" aria-hidden="true" />
+                      Profile
+                    </Link>
+                    <Link
+                      href="/portfolio"
+                      className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/80 transition hover:bg-white/10 hover:text-white"
+                    >
+                      <span className="flex h-4 w-4 items-center justify-center rounded bg-emerald-300/20 text-[0.65rem] font-semibold text-emerald-200">
+                        P
+                      </span>
+                      Portfolio
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm text-rose-300 transition hover:bg-rose-500/15 hover:text-rose-200"
+                    >
+                      <span className="flex h-4 w-4 items-center justify-center rounded bg-rose-500/25 text-[0.65rem] font-semibold text-rose-200">
+                        L
+                      </span>
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hidden rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-black shadow-[0_0_30px_rgba(163,255,204,0.35)] transition hover:bg-emerald-300 md:block"
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         </header>
@@ -167,8 +247,8 @@ export default function Home() {
               <div className="absolute left-1/2 top-[-25%] h-[48rem] w-[48rem] -translate-x-1/2 rounded-full bg-emerald-400/20 blur-[220px]" />
               <div className="absolute left-1/2 top-[35%] h-[38rem] w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-[7rem] bg-gradient-to-br from-emerald-400/25 via-neutral-900/30 to-transparent blur-[40px]" />
               <div className="absolute inset-x-12 bottom-10 flex justify-end text-xs uppercase tracking-[0.35em] text-white/45">
-                Immersive 3D skyline hero coming soon – drop your glTF assets to
-                activate the cinematic reveal.
+                Escrow and payouts handled by licensed Georgian banks and law
+                firms.
               </div>
             </div>
 
@@ -177,13 +257,15 @@ export default function Home() {
                 <div className="flex justify-center">
                   <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-white/5 px-4 py-1 text-xs uppercase tracking-[0.45em] text-emerald-200/90">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />
-                    Real-time execution rail
+                    Georgian fractional real estate
                   </div>
                 </div>
 
                 <div className="space-y-6 text-center">
                   <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                    <span className="block">High-speed swaps with</span>
+                    <span className="block">
+                      Own institutional-grade property with
+                    </span>
                     <AnimatedHeroHeadline
                       titles={animatedTitles}
                       className="justify-center"
@@ -191,9 +273,10 @@ export default function Home() {
                     />
                   </h1>
                   <p className="mx-auto max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg">
-                    Real Investment orchestrates 3D market visualisations,
-                    automated routing, and latency-aware liquidity so you can
-                    move size instantly—without overpaying on gas or slippage.
+                    We identify high-growth Georgian apartments, wrap each one
+                    in its own SPV, and open a one-week escrow-backed raise.
+                    Your capital stays in a neutral account until the target is
+                    met—then flows straight into the property.
                   </p>
                 </div>
 
@@ -202,13 +285,17 @@ export default function Home() {
                     href="/trade"
                     className="inline-flex items-center justify-center rounded-full bg-emerald-400/90 px-6 py-2.5 text-sm font-semibold text-black shadow-[0_0_40px_rgba(134,239,172,0.5)] transition hover:bg-emerald-300"
                   >
-                    Launch Terminal
+                    View current raises
                   </Link>
                   <Link
-                    href="#execution-core"
+                    href="#how-it-works"
+                    scroll={false}
+                    onClick={(event) =>
+                      handleSmoothScroll(event, "#how-it-works")
+                    }
                     className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-2.5 text-sm font-semibold text-white/80 transition hover:border-white/50 hover:text-white"
                   >
-                    Explore protocol
+                    See how it works
                     <span className="h-2 w-2 rounded-full bg-emerald-300" />
                   </Link>
                 </div>
@@ -233,28 +320,30 @@ export default function Home() {
           </section>
 
           <section
-            id="execution-core"
+            id="how-it-works"
             className="rounded-[3rem] border border-white/10 bg-white/5 p-10 shadow-[0_25px_70px_rgba(12,123,89,0.17)] backdrop-blur"
           >
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-2xl space-y-4">
                 <p className="text-sm uppercase tracking-[0.4em] text-emerald-200/80">
-                  Execution core
+                  Fundraising & acquisition
                 </p>
                 <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                  Anchor your desk with modular liquidity primitives
+                  Three guardrails before a single lari moves
                 </h2>
                 <p className="text-base text-white/70">
-                  Each block can be deployed independently or bundled into your
-                  existing infrastructure using our command line toolkit and
-                  API-level webhooks.
+                  Each apartment is locked to its own Georgian SPV, investors
+                  pass national ID verification, and contributions flow directly
+                  into escrow until the raise succeeds. If the goal isn&apos;t
+                  met, the bank reverses funds back to every investor
+                  automatically.
                 </p>
               </div>
               <button
                 type="button"
                 className="self-start rounded-full border border-white/15 px-6 py-2 text-sm font-medium text-white/80 transition hover:border-white/40 hover:text-white"
               >
-                View docs
+                Download diligence sample
               </button>
             </div>
 
@@ -289,30 +378,30 @@ export default function Home() {
           </section>
 
           <section
-            id="community"
-            className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]"
+            id="opportunities"
+            className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]"
           >
-            <div className="rounded-[3rem] border border-white/5 bg-white/5 p-8 backdrop-blur">
+            <div className="rounded-[2.5rem] border border-white/5 bg-white/5 p-7 backdrop-blur">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-semibold text-white">
-                  Market flight deck
+                  Active raises this week
                 </h2>
                 <span className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white/50">
-                  Live feed
+                  Escrow protected
                 </span>
               </div>
-              <div className="mt-6 space-y-4">
+              <div className="mt-5 space-y-3">
                 {marketMovers.map((asset) => {
                   const positive = asset.change.startsWith("+");
                   return (
                     <div
                       key={asset.symbol}
-                      className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-5 py-4 transition hover:border-emerald-300/40 hover:bg-black/50"
+                      className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 transition hover:border-emerald-300/40 hover:bg-black/50"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-300/30 to-emerald-500/30 text-base font-semibold text-emerald-100">
-                          {asset.symbol}
-                        </div>
+                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/10 text-2xl">
+                          {asset.icon}
+                        </span>
                         <div>
                           <p className="text-lg font-semibold text-white">
                             {asset.name}
@@ -343,46 +432,85 @@ export default function Home() {
             <div className="space-y-6">
               <div className="rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-white/10 via-neutral-900/80 to-neutral-900/95 p-8 backdrop-blur">
                 <h2 className="text-2xl font-semibold text-white">
-                  Why desks choose Real Investment
+                  Investment management & exit
                 </h2>
                 <p className="mt-3 text-sm text-white/70">
-                  Built with a cinema-grade 3D hero for live events and investor
-                  demos, backed by real execution muscle for pro trading teams.
+                  After funding, the SPV acquires the apartment, rental income
+                  is tracked, and your dashboard shows your shareholding—never a
+                  wallet balance. Want to exit early? Use the Transfer Board for
+                  a peer-to-peer, escrow-managed sale.
                 </p>
                 <ul className="mt-6 space-y-4">
-                  {trustSignals.map((signal) => (
-                    <li
-                      key={signal.title}
-                      className="rounded-2xl border border-white/10 bg-black/30 p-5"
-                    >
-                      <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">
-                        {signal.title}
-                      </p>
-                      <p className="mt-2 text-sm text-white/70">
-                        {signal.body}
-                      </p>
-                    </li>
-                  ))}
+                  <li className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">
+                      Dashboard tracking
+                    </p>
+                    <p className="mt-2 text-sm text-white/70">
+                      View ownership like “5% in Tbilisi Apt #1 LLC” with rent
+                      distributions and documents in one place.
+                    </p>
+                  </li>
+                  <li className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">
+                      Transfer Board
+                    </p>
+                    <p className="mt-2 text-sm text-white/70">
+                      Post your shares to interested investors. The same escrow
+                      flow moves funds buyer-to-seller and updates the SPV cap
+                      table.
+                    </p>
+                  </li>
+                  <li className="rounded-2xl border border-white/10 bg-black/30 p-5">
+                    <p className="text-sm uppercase tracking-[0.3em] text-emerald-200/80">
+                      Payday event
+                    </p>
+                    <p className="mt-2 text-sm text-white/70">
+                      At exit, profits land in the SPV bank account. We deduct
+                      the success fee, then distribute principal and gains
+                      directly to every linked bank account.
+                    </p>
+                  </li>
                 </ul>
               </div>
 
-              <div className="rounded-[2.5rem] border border-white/10 bg-emerald-400/20 p-8 text-neutral-900 shadow-[0_30px_80px_rgba(134,239,172,0.45)]">
+              <div
+                id="fee-structure"
+                className="rounded-[2.5rem] border border-white/10 bg-emerald-400/20 p-8 text-neutral-900 shadow-[0_30px_80px_rgba(134,239,172,0.45)]"
+              >
                 <p className="text-sm uppercase tracking-[0.4em] text-neutral-900/70">
-                  Launch partner program
+                  Fair & transparent fees
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold text-neutral-900">
-                  Bring your skyline to life
+                  We win when investors win
                 </h3>
-                <p className="mt-2 text-sm text-neutral-900/70">
-                  Submit your 3D assets and we will stage them within the hero
-                  module, complete with volumetric lighting presets and camera
-                  paths.
-                </p>
+                <ul className="mt-4 space-y-4 text-sm text-neutral-900/80">
+                  {trustSignals.map((signal) => (
+                    <li
+                      key={signal.title}
+                      className="rounded-2xl border border-neutral-900/10 bg-white/60 p-4"
+                    >
+                      <p className="text-xs uppercase tracking-[0.3em] text-neutral-700/80">
+                        {signal.title}
+                      </p>
+                      <p className="mt-2">{signal.body}</p>
+                    </li>
+                  ))}
+                  <li className="rounded-2xl border border-neutral-900/10 bg-white/60 p-4">
+                    <p className="text-xs uppercase tracking-[0.3em] text-neutral-700/80">
+                      Transaction fee
+                    </p>
+                    <p className="mt-2">
+                      Instead of bank withdrawal fees, we charge a flat 5 GEL
+                      bank transfer fee on final profit payouts to cover
+                      processing.
+                    </p>
+                  </li>
+                </ul>
                 <button
                   type="button"
                   className="mt-6 inline-flex items-center justify-center rounded-full bg-neutral-900 px-5 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-black"
                 >
-                  Request staging session
+                  Download fee schedule
                 </button>
               </div>
             </div>

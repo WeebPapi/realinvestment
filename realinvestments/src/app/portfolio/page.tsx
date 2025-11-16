@@ -3,38 +3,38 @@ import Link from "next/link";
 export const metadata = {
   title: "Real Investment | Portfolio",
   description:
-    "Track allocations, yield performance, and cross-venue balances within your Real Investment portfolio.",
+    "Track your Georgian real estate SPV holdings, dividend history, and escrow events in your Real Investment portfolio.",
 };
 
 const holdings = [
-  { asset: "Bitcoin", symbol: "BTC", allocation: "42%", value: "$2.8M", pnl: "+12.4%" },
-  { asset: "Ether", symbol: "ETH", allocation: "27%", value: "$1.8M", pnl: "+7.9%" },
-  { asset: "Solana", symbol: "SOL", allocation: "16%", value: "$1.1M", pnl: "+15.6%" },
-  { asset: "Aptos", symbol: "APT", allocation: "9%", value: "$620K", pnl: "-3.8%" },
-  { asset: "Stable reserves", symbol: "USDC", allocation: "6%", value: "$410K", pnl: "+1.1%" },
+  { asset: "Tbilisi Apt #1 LLC", symbol: "TBI-01", allocation: "38%", value: "₾310K", pnl: "+8.2%" },
+  { asset: "Seaside Residences LLC", symbol: "BTM-02", allocation: "24%", value: "₾195K", pnl: "+5.6%" },
+  { asset: "Riverside Lofts LLC", symbol: "KTS-03", allocation: "18%", value: "₾148K", pnl: "+3.1%" },
+  { asset: "Old Town Revival LLC", symbol: "TBI-04", allocation: "12%", value: "₾96K", pnl: "—" },
+  { asset: "Escrow refunds", symbol: "REFUND", allocation: "8%", value: "₾64K", pnl: "Settled" },
 ];
 
 const streaks = [
-  { title: "Net deposits", value: "$320K", caption: "Past 30 days" },
-  { title: "Funding APR", value: "4.8%", caption: "Weighted average" },
-  { title: "Strategy uptime", value: "99.97%", caption: "Last 90 days" },
+  { title: "Dividends distributed", value: "₾42,600", caption: "Past 12 months" },
+  { title: "Escrow refunds", value: "3 rounds", caption: "Returned within 24h" },
+  { title: "Average IRR target", value: "15.2%", caption: "Across active SPVs" },
 ];
 
 const timeline = [
   {
-    title: "Desk rebalance executed",
+    title: "Quarterly rent credit received",
     time: "Today • 16:10",
-    body: "Shifted 4% of SOL into BTC to capture swap incentives.",
+    body: "₾9,450 transferred from Tbilisi Apt #1 LLC to your linked bank account.",
   },
   {
-    title: "USDC yield cycle settled",
-    time: "Yesterday • 21:34",
-    body: "Auto-rolled 45% of stable reserves into 7-day vault.",
+    title: "Transfer Board sale completed",
+    time: "Yesterday • 19:32",
+    body: "2% stake in Seaside Residences LLC sold via escrow. Title update filed with the registrar.",
   },
   {
-    title: "Risk parameters synced",
+    title: "New diligence pack published",
     time: "Sep 13 • 09:18",
-    body: "Synced updated volatility thresholds across smart order routing.",
+    body: "Old Town Revival LLC uploaded updated contractor bids and valuation summary.",
   },
 ];
 
@@ -50,21 +50,20 @@ export default function PortfolioPage() {
         <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm uppercase tracking-[0.4em] text-emerald-200/70">
-              Portfolio control tower
+              Ownership dashboard
             </p>
             <h1 className="mt-2 text-4xl font-semibold tracking-tight sm:text-5xl">
-              Monitor capital in real time
+              Monitor every property share you own
             </h1>
             <p className="mt-3 max-w-2xl text-base text-white/70 sm:text-lg">
-              Visualize multi-chain balances, funding flows, and realized P&L with motion-ready
-              data streams built for investor showcases.
+              Track dividend history, escrow refunds, and equity percentages for each SPV. The dashboard reflects bank transfers—not wallet balances—so every line item matches real-world payouts.
             </p>
           </div>
           <Link
             href="/trade"
             className="self-start rounded-full border border-white/15 px-6 py-2 text-sm font-medium text-white/80 transition hover:border-white/40 hover:text-white"
           >
-            Open trade terminal
+            Browse active raises
           </Link>
         </header>
 
@@ -74,7 +73,7 @@ export default function PortfolioPage() {
               <div>
                 <h2 className="text-2xl font-semibold">Holdings breakdown</h2>
                 <p className="mt-1 text-sm text-white/60">
-                  Aggregated from on-chain vaults, exchanges, and custody partners.
+                  Consolidated from SPV bank statements, rent ledgers, and escrow confirmations.
                 </p>
               </div>
               <span className="rounded-full border border-white/10 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white/50">
@@ -121,7 +120,9 @@ export default function PortfolioPage() {
                       <p className="text-sm font-semibold text-white">{holding.value}</p>
                       <p
                         className={`text-xs ${
-                          holding.pnl.startsWith("-") ? "text-rose-400" : "text-emerald-300"
+                          holding.pnl.startsWith("-") || holding.pnl === "—" || holding.pnl === "Settled"
+                            ? "text-white/60"
+                            : "text-emerald-300"
                         }`}
                       >
                         {holding.pnl}
@@ -159,11 +160,10 @@ export default function PortfolioPage() {
 
             <div className="rounded-[2.2rem] border border-emerald-200/40 bg-emerald-400/15 p-6 text-neutral-900 shadow-[0_30px_80px_rgba(134,239,172,0.4)]">
               <h3 className="text-lg font-semibold text-neutral-900">
-                Present to LPs and investors
+                Share updates with co-investors
               </h3>
               <p className="mt-2 text-sm text-neutral-900/80">
-                Sync these analytics into the 3D skyline hero for fundraising decks or live road
-                shows. Configure custom camera paths per asset class.
+                Export investor-ready reports showing rent distributions, escrow receipts, and SPV financial statements. Every entry is backed by notarised documents.
               </p>
               <Link
                 href="/"

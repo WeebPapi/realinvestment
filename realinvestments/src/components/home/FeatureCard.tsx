@@ -13,7 +13,7 @@ export const FeatureCard = forwardRef<HTMLElement, FeatureCardProps>(
     return (
       <article
         ref={ref}
-        className="group absolute flex h-[300] w-[350px] flex-col justify-between rounded-3xl border border-white/10 bg-gradient-to-br from-white/8 via-neutral-900/70 to-neutral-900/90 p-6 transition duration-300 hover:border-emerald-300/40 hover:shadow-[0_40px_80px_rgba(134,239,172,0.18)]"
+        className="group absolute flex min-h-[18rem] w-[min(78vw,18rem)] max-w-sm flex-col justify-between rounded-3xl border border-white/10 bg-gradient-to-br from-white/8 via-neutral-900/70 to-neutral-900/90 p-6 text-left transition duration-300 hover:border-emerald-300/40 hover:shadow-[0_40px_80px_rgba(134,239,172,0.18)] md:min-h-[21rem] md:w-[350px]"
       >
         <div>
           <h4 className="text-xl font-semibold text-white">

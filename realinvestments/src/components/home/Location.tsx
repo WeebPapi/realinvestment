@@ -1,31 +1,31 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { LocationModel } from "./LocationModel";
-import { useAuth } from "../providers/auth-provider";
+import Link from "next/link"
+import { useRef, useState } from "react"
+import { useGSAP } from "@gsap/react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { LocationModel } from "./LocationModel"
+import { useAuth } from "../providers/auth-provider"
 
 export function Location() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const textRef = useRef<HTMLDivElement | null>(null);
-  const introRef = useRef<HTMLParagraphElement | null>(null);
-  const buttonRef = useRef<HTMLAnchorElement | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const { isAuthenticated } = useAuth();
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const textRef = useRef<HTMLDivElement | null>(null)
+  const introRef = useRef<HTMLParagraphElement | null>(null)
+  const buttonRef = useRef<HTMLAnchorElement | null>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const { isAuthenticated } = useAuth()
 
   useGSAP(
     () => {
       if (typeof window === "undefined") {
-        return;
+        return
       }
 
-      gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger)
 
       if (!sectionRef.current) {
-        return;
+        return
       }
 
       const tl = gsap.timeline({
@@ -39,7 +39,7 @@ export function Location() {
           invalidateOnRefresh: true,
           onUpdate: (self) => setScrollProgress(self.progress),
         },
-      });
+      })
 
       if (introRef.current) {
         tl.fromTo(
@@ -51,7 +51,7 @@ export function Location() {
           introRef.current,
           { opacity: 0, y: -220, duration: 0.35, ease: "power2.in" },
           0.45
-        );
+        )
       }
 
       if (textRef.current) {
@@ -60,7 +60,7 @@ export function Location() {
           { opacity: 0, y: 32 },
           { opacity: 1, y: 0, ease: "power2.out" },
           0.65
-        );
+        )
       }
 
       if (buttonRef.current) {
@@ -74,11 +74,11 @@ export function Location() {
             ease: "power2.out",
           },
           0.92
-        );
+        )
       }
     },
     { scope: sectionRef }
-  );
+  )
 
   return (
     <section
@@ -111,5 +111,5 @@ export function Location() {
         </Link>
       </div>
     </section>
-  );
+  )
 }

@@ -15,167 +15,157 @@ export function AlternativeHero() {
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([])
   useGSAP(
     () => {
-      // Wait for all refs to be available and all word refs to be populated
       if (
         !text1Ref.current ||
         !text2Ref.current ||
         !greenBgRef.current ||
         wordRefs.current.length === 0 ||
         !wordRefs.current[0]
-      )
+      ) {
         return
+      }
 
-      // Split text into words: ["Buy", "a", "piece", "of", "Georgia!"]
       const words = ["Buy", "a", "piece", "of", "Georgia!"]
-
-      // Ensure all word refs are available
       const allWordsReady = words.every((_, index) => wordRefs.current[index])
       if (!allWordsReady) return
 
-      // Initial state: Set all words - "Buy" starts visible, others hidden and large
-      const firstWordEl = wordRefs.current[0]
-      if (firstWordEl) {
-        // "Buy" starts visible (fade in animation happens on load)
-        gsap.set(firstWordEl, {
-          opacity: 1,
-          scale: 1,
-          display: "inline-block",
-          transformOrigin: "center center",
-        })
-      }
+      const setupTimeline = (isMobile: boolean) => {
+        const scaleOut = isMobile ? 0.35 : 0.1
+        const initialWordScale = isMobile ? 7 : 18
+        const endDistance = isMobile ? "+=135%" : "+=165%"
+        const holdDuration = isMobile ? 3.6 : 5
+        const text2EnterOffset = isMobile ? 25 : 35
+        const text2ExitOffset = isMobile ? -260 : -360
+        const text2ExitDuration = isMobile ? 4.6 : 6.1
+        const exitFirstStageDuration = text2ExitDuration * 0.65
+        const exitSecondStageDuration = text2ExitDuration * 0.35
+        const exitFirstStageOffset = text2ExitOffset * 0.65
 
-      words.forEach((_, index) => {
-        if (index === 0) return // Already handled above
-        const wordEl = wordRefs.current[index]
-        if (wordEl) {
-          // Other words start invisible and very large, but stay in DOM
-          gsap.set(wordEl, {
-            opacity: 0,
-            scale: 5,
+        gsap.set(greenBgRef.current, {
+          x: 0,
+          opacity: 1,
+          clearProps: "transform",
+        })
+
+        wordRefs.current.forEach((word, index) => {
+          if (!word) return
+          const isFirstWord = index === 0
+          gsap.set(word, {
+            opacity: isFirstWord ? 1 : 0,
+            scale: isFirstWord ? 1 : initialWordScale,
             display: "inline-block",
             transformOrigin: "center center",
           })
-        }
-      })
+        })
 
-      // Optional: Animate "Buy" fade in on load (though it's already visible)
-      // This can be removed if you want it to appear immediately
-      // gsap.from(wordRefs.current[0], {
-      //   opacity: 0,
-      //   duration: 1.5,
-      //   ease: "power2.out",
-      // })
+        gsap.set(text2Ref.current, {
+          xPercent: text2EnterOffset,
+          opacity: 0,
+          rotate: isMobile ? 0 : 0,
+        })
 
-      // Set text2Ref initial state
-      gsap.set(text2Ref.current, { x: "100vw", opacity: 1 })
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top top",
-          end: "+=150%",
-          pin: true,
-          scrub: true,
-        },
-      })
-
-      // Set initial state in timeline: "Buy" should be visible at scroll start
-      tl.set(wordRefs.current[0], {
-        opacity: 1,
-        scale: 1,
-      })
-
-      // Word-by-word scroll animation (fully reversible)
-      words.forEach((_, index) => {
-        if (index < words.length - 1) {
-          const currentWord = wordRefs.current[index]
-          const nextWord = wordRefs.current[index + 1]
-
-          if (currentWord && nextWord) {
-            // Next word fades in and shrinks from large to normal
-            tl.to(
-              nextWord,
-              {
-                opacity: 1,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out",
-              },
-              ">"
-            )
-
-            // Current word shrinks away and fades out (simultaneous)
-            tl.to(
-              currentWord,
-              {
-                opacity: 0,
-                scale: 0.1,
-                duration: 0.8,
-                ease: "power2.in",
-              },
-              "<" // Start at same time as next word animation
-            )
-          }
-        }
-      })
-
-      // Animate the last word ("Georgia!") shrinking and disappearing
-      const lastWord = wordRefs.current[words.length - 1]
-      if (lastWord) {
-        tl.to(
-          lastWord,
-          {
-            opacity: 0,
-            scale: 0.1,
-            duration: 0.8,
-            ease: "power2.in",
+        const tl = gsap.timeline({
+          defaults: {
+            duration: isMobile ? 0.65 : 0.8,
+            ease: "power2.out",
           },
-          ">"
-        )
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top top",
+            end: endDistance,
+            pin: true,
+            scrub: isMobile ? 3.4 : 4.8,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        words.forEach((_, index) => {
+          if (index < words.length - 1) {
+            const currentWord = wordRefs.current[index]
+            const nextWord = wordRefs.current[index + 1]
+
+            if (currentWord && nextWord) {
+              tl.to(
+                nextWord,
+                {
+                  opacity: 1,
+                  scale: 1,
+                },
+                ">"
+              ).to(
+                currentWord,
+                {
+                  opacity: 0,
+                  scale: scaleOut,
+                  ease: "power2.in",
+                },
+                "<"
+              )
+            }
+          }
+        })
+
+        const lastWord = wordRefs.current[words.length - 1]
+        if (lastWord) {
+          tl.to(lastWord, {
+            opacity: 0,
+            scale: scaleOut,
+            ease: "power2.in",
+          })
+        }
+
+        tl.to(text2Ref.current, {
+          xPercent: 10,
+          opacity: 1,
+          duration: isMobile ? 1.05 : 1.35,
+        })
+          .to(text2Ref.current, {
+            xPercent: 0,
+            duration: holdDuration,
+          })
+          .to(text2Ref.current, {
+            xPercent: exitFirstStageOffset,
+            duration: exitFirstStageDuration,
+            ease: "power2.in",
+          })
+          .to(text2Ref.current, {
+            xPercent: text2ExitOffset,
+            duration: exitSecondStageDuration,
+            ease: "power2.in",
+          })
+          .to(
+            greenBgRef.current,
+            {
+              opacity: 0,
+              duration: isMobile ? 0.6 : 0.9,
+              ease: "power2.inOut",
+            },
+            "<"
+          )
+          .to(
+            {},
+            {
+              duration: isMobile ? 0.35 : 0.55,
+            }
+          )
+          .to(text2Ref.current, {
+            opacity: 0,
+            duration: 0.01,
+          })
+
+        return () => {
+          tl.kill()
+        }
       }
 
-      // --- Sequence 2: Second Text ---
-      // Enter from right - only after last word has disappeared
-      tl.to(
-        text2Ref.current,
-        {
-          x: "0%",
-          duration: 1,
-          ease: "power2.out",
-        },
-        ">" // Start after the last word animation completes
-      )
-        // Hold text2 in place for a moment
-        .to(
-          text2Ref.current,
-          {
-            x: "0%",
-            duration: 1.5, // Hold duration
-          },
-          ">"
-        )
-        // Exit to left (no scale or y movement)
-        .to(
-          text2Ref.current,
-          {
-            x: "-100vw",
-            opacity: 0,
-            duration: 1,
-            ease: "power2.in",
-          },
-          ">"
-        )
-        // Slide green background to the left (revealing black underneath)
-        // This now starts after text2 has begun exiting
-        .to(
-          greenBgRef.current,
-          {
-            x: "-100%",
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "<+=0.5" // Start halfway through the text exit
-        )
+      const mm = gsap.matchMedia()
+      mm.add("(max-width: 767px)", () => setupTimeline(true))
+      mm.add("(min-width: 768px)", () => setupTimeline(false))
+
+      return () => {
+        mm.revert()
+      }
     },
     { scope: container }
   )
@@ -187,7 +177,7 @@ export function AlternativeHero() {
   return (
     <section
       ref={container}
-      className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-[#0a0a0a]"
+      className="relative flex min-h-svh w-full items-center justify-center overflow-hidden bg-[#0a0a0a] px-4 py-16 sm:min-h-dvh md:h-screen md:px-10"
     >
       {/* Green background layer that slides out */}
       <div
@@ -198,7 +188,7 @@ export function AlternativeHero() {
 
       <div
         ref={text1Ref}
-        className="absolute px-4 text-center text-6xl font-bold tracking-tighter text-white sm:text-8xl md:text-9xl z-10 w-full flex justify-center items-center"
+        className="absolute z-10 flex w-full max-w-6xl items-center justify-center px-4 text-center text-[clamp(3.25rem,11vw,7.5rem)] font-bold leading-[0.9] tracking-tight text-white sm:text-[clamp(4rem,10vw,8.5rem)]"
       >
         {words.map((word, index) => (
           <span
@@ -208,7 +198,7 @@ export function AlternativeHero() {
                 wordRefs.current[index] = el
               }
             }}
-            className={`word absolute whitespace-nowrap ${
+            className={`word absolute whitespace-nowrap px-1 ${
               index === 0 ? "opacity-100" : "opacity-0"
             }`}
             suppressHydrationWarning
@@ -220,7 +210,7 @@ export function AlternativeHero() {
 
       <h1
         ref={text2Ref}
-        className="absolute px-4 text-center text-6xl font-bold tracking-tighter text-white sm:text-8xl md:text-7xl z-10 opacity-0"
+        className="absolute z-10 w-full max-w-none px-4 text-center text-[clamp(3.5rem,14vw,9.5rem)] font-extrabold leading-[0.9] tracking-tight text-white opacity-0 whitespace-nowrap sm:text-[clamp(4.5rem,12vw,11rem)]"
         suppressHydrationWarning
       >
         {text2.split("").map((char, index) => (

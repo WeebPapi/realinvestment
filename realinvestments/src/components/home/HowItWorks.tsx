@@ -62,230 +62,243 @@ export function HowItWorks() {
       ) as HTMLElement[]
       if (!heading || headingLines.length < 2) return
 
-      // Set initial states - keep hero elements centered to set up the rift effect
-      gsap.set(titleRef.current, {
-        left: "50%",
-        top: "50%",
-        x: "-50%",
-        y: "100vh",
-        opacity: 0,
-      })
-
-      gsap.set(heading, {
-        left: "50%",
-        top: "50%",
-        x: "-50%",
-        y: "100vh",
-        opacity: 0,
-        scale: 0.9,
-        lineHeight: "1em",
-        transformOrigin: "50% 50%",
-      })
-
       const cards = [
         card1Ref.current,
         card2Ref.current,
         card3Ref.current,
       ].filter(Boolean) as HTMLElement[]
 
-      if (cards.length) {
-        gsap.set(cards, {
+      const setupTimeline = (isMobile: boolean) => {
+        const introYOffset = isMobile ? "85vh" : "100vh"
+        const headingScale = isMobile ? 1.05 : 1.2
+        const riftInset = isMobile
+          ? "inset(45% 35% 45% 35%)"
+          : "inset(35% 30% 35% 30%)"
+        const endDistance = isMobile ? "+=300%" : "+=450%"
+        const spreadOffset = isMobile ? 140 : 420
+        const scrubValue = isMobile ? 0.6 : 1
+
+        gsap.set(titleRef.current, {
           left: "50%",
           top: "50%",
-          xPercent: -50,
-          yPercent: -50,
-          x: 0,
-          y: 0,
+          x: "-50%",
+          y: introYOffset,
           opacity: 0,
-          scale: 0.85,
         })
 
-        gsap.set(card1Ref.current, { rotation: -8 })
-        gsap.set(card2Ref.current, { rotation: 4 })
-        gsap.set(card3Ref.current, { rotation: -5 })
-      }
-
-      if (cardsContainerRef.current) {
-        gsap.set(cardsContainerRef.current, {
-          clipPath: "inset(50% 45% 50% 45%)",
+        gsap.set(heading, {
+          left: "50%",
+          top: "50%",
+          x: "-50%",
+          y: introYOffset,
           opacity: 0,
-          filter: "drop-shadow(0 0 20px rgba(255,255,255,0.25))",
+          scale: 0.9,
+          lineHeight: "1em",
+          transformOrigin: "50% 50%",
         })
-      }
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: "+=450%",
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          pinSpacing: true,
-        },
-      })
-
-      // Sequence 1: "What we offer" comes up from below to center
-      tl.to(titleRef.current, {
-        y: "-50%", // Center it
-        opacity: 1,
-        duration: 1.5,
-        ease: "power2.out",
-      })
-        // Sequence 2: Hold the title in center briefly
-        .to(titleRef.current, {
-          y: "-50%",
-          opacity: 1,
-          duration: 0.5,
-        })
-        // Sequence 3: Title exits upward completely
-        .to(titleRef.current, {
-          top: "-50%",
-          y: "-50%", // Keep the transform offset
-          opacity: 1, // Stay fully visible while exiting upward
-          duration: 1.5,
-          ease: "power2.in",
-        })
-        // Sequence 4: "Three guardrails..." rises and locks to center
-        .to(heading, {
-          y: "-50%",
-          opacity: 1,
-          duration: 2.2,
-          ease: "power2.out",
-        })
-        // Sequence 5: Lines separate to form the rift
-        .addLabel("schism")
-        .to(
-          headingLines[0],
-          {
-            yPercent: -65,
-            duration: 1.4,
-            ease: "power3.inOut",
-          },
-          "schism"
-        )
-        .to(
-          headingLines[1],
-          {
-            yPercent: 65,
-            duration: 1.4,
-            ease: "power3.inOut",
-          },
-          "schism"
-        )
-        .to(
-          heading,
-          {
-            scale: 1.2,
-            letterSpacing: "-0.01em",
-            duration: 1.2,
-            ease: "power2.inOut",
-          },
-          "schism"
-        )
-        .to(
-          cardsContainerRef.current,
-          {
-            opacity: 1,
-            clipPath: "inset(35% 30% 35% 30%)",
-            duration: 1.2,
-            ease: "power2.inOut",
-          },
-          "schism+=0.2"
-        )
-        // Sequence 6: Cards burst through stacked in the center
-        .fromTo(
-          cards,
-          {
-            yPercent: 30,
-            scale: 0.85,
-            opacity: 0,
-          },
-          {
+        if (cards.length) {
+          gsap.set(cards, {
+            left: "50%",
+            top: "50%",
+            xPercent: -50,
             yPercent: -50,
-            scale: 1,
-            opacity: 1,
-            stagger: 0.15,
-            duration: 1.1,
-            ease: "power3.out",
-          },
-          "schism+=0.4"
-        )
-        // Sequence 7: Heading lines continue splitting and exit while cards emerge
-        .to(
-          headingLines[0],
-          {
-            yPercent: -220,
+            x: 0,
+            y: 0,
             opacity: 0,
-            duration: 1,
-            ease: "power2.in",
-          },
-          "schism+=0.7"
-        )
-        .to(
-          headingLines[1],
-          {
-            yPercent: 220,
+            scale: 0.85,
+          })
+
+          gsap.set(card1Ref.current, { rotation: -8 })
+          gsap.set(card2Ref.current, { rotation: 4 })
+          gsap.set(card3Ref.current, { rotation: -5 })
+        }
+
+        if (cardsContainerRef.current) {
+          gsap.set(cardsContainerRef.current, {
+            clipPath: "inset(50% 45% 50% 45%)",
             opacity: 0,
-            duration: 1,
-            ease: "power2.in",
+            filter: "drop-shadow(0 0 20px rgba(255,255,255,0.25))",
+          })
+        }
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: endDistance,
+            pin: true,
+            scrub: scrubValue,
+            anticipatePin: 1,
+            pinSpacing: true,
+            invalidateOnRefresh: true,
           },
-          "schism+=0.7"
-        )
-        .to(
-          heading,
-          {
-            opacity: 0,
-            duration: 0.8,
-            ease: "power2.in",
-          },
-          "schism+=0.9"
-        )
-        // Sequence 8: Rift fully opens to reveal cards
-        .to(cardsContainerRef.current, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          duration: 1,
+        })
+
+        tl.to(titleRef.current, {
+          y: "-50%",
+          opacity: 1,
+          duration: 1.2,
           ease: "power2.out",
         })
-        // Sequence 9: Cards spread out horizontally
-        .addLabel("spread")
-        .to(
-          card1Ref.current,
-          {
-            left: "50%",
-            x: -420,
-            rotation: 0,
+          .to(titleRef.current, {
+            y: "-50%",
+            opacity: 1,
+            duration: 0.5,
+          })
+          .to(titleRef.current, {
+            top: "-50%",
+            y: "-50%",
+            opacity: 1,
             duration: 1.3,
-            ease: "power3.inOut",
-          },
-          "spread"
-        )
-        .to(
-          card2Ref.current,
-          {
-            left: "50%",
-            x: 0,
-            rotation: 0,
-            duration: 1.3,
-            ease: "power3.inOut",
-          },
-          "spread"
-        )
-        .to(
-          card3Ref.current,
-          {
-            left: "50%",
-            x: 420,
-            rotation: 0,
-            duration: 1.3,
-            ease: "power3.inOut",
-          },
-          "spread"
-        )
-        // Sequence 10: Hold final tableau with cards only
-        .to([card1Ref.current, card2Ref.current, card3Ref.current], {
-          duration: 1,
-        })
+            ease: "power2.in",
+          })
+          .to(heading, {
+            y: "-50%",
+            opacity: 1,
+            duration: 1.6,
+            ease: "power2.out",
+          })
+          .addLabel("schism")
+          .to(
+            headingLines[0],
+            {
+              yPercent: -65,
+              duration: 1.2,
+              ease: "power3.inOut",
+            },
+            "schism"
+          )
+          .to(
+            headingLines[1],
+            {
+              yPercent: 65,
+              duration: 1.2,
+              ease: "power3.inOut",
+            },
+            "schism"
+          )
+          .to(
+            heading,
+            {
+              scale: headingScale,
+              letterSpacing: "-0.01em",
+              duration: 1.2,
+              ease: "power2.inOut",
+            },
+            "schism"
+          )
+          .to(
+            cardsContainerRef.current,
+            {
+              opacity: 1,
+              clipPath: riftInset,
+              duration: 1.1,
+              ease: "power2.inOut",
+            },
+            "schism+=0.2"
+          )
+          .fromTo(
+            cards,
+            {
+              yPercent: 30,
+              scale: 0.85,
+              opacity: 0,
+            },
+            {
+              yPercent: -50,
+              scale: 1,
+              opacity: 1,
+              stagger: 0.12,
+              duration: 1,
+              ease: "power3.out",
+            },
+            "schism+=0.35"
+          )
+          .to(
+            headingLines[0],
+            {
+              yPercent: -220,
+              opacity: 0,
+              duration: 1,
+              ease: "power2.in",
+            },
+            "schism+=0.6"
+          )
+          .to(
+            headingLines[1],
+            {
+              yPercent: 220,
+              opacity: 0,
+              duration: 1,
+              ease: "power2.in",
+            },
+            "schism+=0.6"
+          )
+          .to(
+            heading,
+            {
+              opacity: 0,
+              duration: 0.7,
+              ease: "power2.in",
+            },
+            "schism+=0.8"
+          )
+          .to(cardsContainerRef.current, {
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1,
+            ease: "power2.out",
+          })
+          .addLabel("spread")
+          .to(
+            card1Ref.current,
+            {
+              left: "50%",
+              x: -spreadOffset,
+              rotation: 0,
+              duration: 1,
+              ease: "power3.inOut",
+            },
+            "spread"
+          )
+          .to(
+            card2Ref.current,
+            {
+              left: "50%",
+              x: 0,
+              rotation: 0,
+              duration: 1,
+              ease: "power3.inOut",
+            },
+            "spread"
+          )
+          .to(
+            card3Ref.current,
+            {
+              left: "50%",
+              x: spreadOffset,
+              rotation: 0,
+              duration: 1,
+              ease: "power3.inOut",
+            },
+            "spread"
+          )
+          .to([card1Ref.current, card2Ref.current, card3Ref.current], {
+            duration: 0.8,
+          })
+
+        return () => {
+          tl.kill()
+        }
+      }
+
+      const mm = gsap.matchMedia()
+      mm.add("(max-width: 1023px)", () => setupTimeline(true))
+      mm.add("(min-width: 1024px)", () => setupTimeline(false))
+
+      return () => {
+        mm.revert()
+      }
     },
     { scope: containerRef }
   )
@@ -293,20 +306,20 @@ export function HowItWorks() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]"
+      className="relative flex w-full min-h-[120svh] items-center justify-center overflow-hidden bg-[#0a0a0a] px-4 py-16 sm:min-h-[120dvh] md:h-screen md:px-0 md:py-0"
     >
       {/* Full-Screen Title Container */}
-      <div className="absolute inset-0 flex items-center justify-center z-10">
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
         <h2
           ref={titleRef}
-          className="absolute text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white tracking-tight text-center px-4"
+          className="absolute px-4 text-center text-[clamp(2.5rem,8vw,5.5rem)] font-bold tracking-tight text-white md:text-8xl lg:text-9xl"
         >
           What we offer
         </h2>
       </div>
 
       {/* Main Heading - "Three guardrails..." */}
-      <h3 className="main-heading absolute text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white tracking-tight text-center px-8 max-w-5xl z-10 leading-tight">
+      <h3 className="main-heading absolute z-10 max-w-5xl px-4 text-center text-[clamp(2.25rem,7vw,4.5rem)] font-bold leading-tight tracking-tight text-white sm:px-8 md:text-7xl lg:text-8xl">
         <span className="heading-line block">Three guardrails</span>
         <span className="heading-line block">before a single lari moves</span>
       </h3>
@@ -314,7 +327,7 @@ export function HowItWorks() {
       {/* Feature Cards Container - for animation */}
       <div
         ref={cardsContainerRef}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+        className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 px-4 md:flex-row md:gap-12"
       >
         <FeatureCard
           ref={card1Ref}

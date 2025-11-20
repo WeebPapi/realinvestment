@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useLenis } from "@/components/providers/smooth-scroll";
 
 export function CustomScrollbar() {
+  const [isMounted, setIsMounted] = useState(false);
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -12,8 +13,14 @@ export function CustomScrollbar() {
   const animationFrameRef = useRef<number | null>(null);
   const lenis = useLenis();
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Calculate scroll percentage
   useEffect(() => {
+    if (!isMounted) return;
+
     const updateScrollPercentage = () => {
       const scrollTop = window.scrollY;
       const scrollHeight = document.documentElement.scrollHeight;
@@ -31,7 +38,7 @@ export function CustomScrollbar() {
       window.removeEventListener("scroll", updateScrollPercentage);
       window.removeEventListener("resize", updateScrollPercentage);
     };
-  }, []);
+  }, [isMounted]);
 
   // Handle drag functionality
   useEffect(() => {
@@ -99,8 +106,8 @@ export function CustomScrollbar() {
     setIsDragging(true);
   };
 
-  // Don't render on server
-  if (typeof window === "undefined") {
+  // Don't render on server or before mount
+  if (!isMounted) {
     return null;
   }
 

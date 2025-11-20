@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import { Tiles } from "@/components/ui/tiles";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { AlternativeHero } from "@/components/home/AlternativeHero";
-import { HowItWorks } from "@/components/home/HowItWorks";
-import { Opportunities } from "@/components/home/Opportunities";
-import { Location } from "@/components/home/Location";
+import { Tiles } from "@/components/ui/tiles"
+import { Header } from "@/components/layout/Header"
+import { Footer } from "@/components/layout/Footer"
+import { AlternativeHero } from "@/components/home/AlternativeHero"
+import { HowItWorks } from "@/components/home/HowItWorks"
+import { Opportunities } from "@/components/home/Opportunities"
+import { Location } from "@/components/home/Location"
 
 export default function Home() {
   return (
@@ -32,11 +32,14 @@ export default function Home() {
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 pb-24 sm:px-10 lg:px-16">
         <main className="flex flex-1 flex-col gap-16">
           <Opportunities />
-          <Location />
         </main>
+      </div>
 
+      <Location />
+
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-6 pb-24 sm:px-10 lg:px-16">
         <Footer />
       </div>
     </div>
-  );
+  )
 }
